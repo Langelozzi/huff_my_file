@@ -1,21 +1,7 @@
 #include <iostream>
 #include "models/PriorityQueue.h"
 #include "util/compress.h"
-
-void printCodeWords(std::unordered_map<char, std::vector<int>*>* codewords) {
-    std::cout << "Huffman Codeword:" << std::endl;
-
-    auto iterator = codewords->begin();
-    while (iterator != codewords->end()) {
-        std::cout << iterator->first << " | ";
-        for (auto bit : *(iterator->second)) {
-            std::cout << bit;
-        }
-        std::cout << std::endl;
-
-        std::advance(iterator, 1);
-    }
-}
+#include "util/helpers.h"
 
 // argc = argument count: number of arguments provided
 // argv = a vector of arguments
