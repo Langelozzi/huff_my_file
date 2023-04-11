@@ -3,8 +3,12 @@
 #include "util/compress.h"
 #include "util/helpers.h"
 
-// argc = argument count: number of arguments provided
-// argv = a vector of arguments
+/**
+ * Compress a text file to a new file using huffman encoding algorithm.
+ * @param argc argument count: the number of command line arguments provided
+ * @param argv argument vector: the string (char*) arguments provided
+ * @return exit status 0
+ */
 int main(int argc, char** argv) {
     if (argc == 1) {
         std::cout << "Please provide a filename when using this command. e.g. huff file.txt" << std::endl;
