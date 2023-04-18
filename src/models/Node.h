@@ -5,7 +5,11 @@
 #ifndef NODE_H
 #define NODE_H
 
-
+/**
+ * Node class that represents a Node capable of being used in a priority queue as well as a tree data structure.
+ * @author Lucas Angelozzi
+ * @version 1.0.0
+ */
 class Node {
 private:
     char data;
@@ -13,25 +17,66 @@ private:
     Node *left, *right;
 
 public:
+    /**
+     * Instantiate a new Node with data and a priority.
+     * @param newData the data to store in the Node
+     * @param newPriority the priority of the Node in a PriorityQueue
+     */
     Node(char newData, int newPriority);
 
-    char getData();
+    /**
+     * Get the data in the Node.
+     * @return the data in the Node
+     */
+    char getData() const;
 
+    /**
+     * Set the data in the Node.
+     * @param newData the data to set in the Node
+     */
     void setData(char newData);
 
-    int getPriority();
+    /**
+     * Get the priority of the Node.
+     * @return the Node's priority
+     */
+    int getPriority() const;
 
+    /**
+     * Set the priority of the Node.
+     * @param newPriority the updated priority
+     */
     void setPriority(int newPriority);
 
-    [[nodiscard]] Node *getLeft() const;
+    /**
+     * Get a pointer to the left Node.
+     * @return a pointer to the left Node
+     */
+    [[nodiscard]] Node* getLeft() const;
 
-    void setLeft(Node *newLeft);
+    /**
+     * Set the left Node.
+     * @param newLeft a pointer to the new left Node
+     */
+    void setLeft(Node* newLeft);
 
-    [[nodiscard]] Node *getRight() const;
+    /**
+     * Get a pointer to the right Node.
+     * @return a pointer to the right Node
+     */
+    [[nodiscard]] Node* getRight() const;
 
-    void setRight(Node *newRight);
+    /**
+     * Set the right Node.
+     * @param newRight a pointer to the new right Node
+     */
+    void setRight(Node* newRight);
 
-    int isLeaf();
+    /**
+     * Determine if this Node is a leaf Node, i.e. has no left or right Nodes.
+     * @return a positive integer if it is a leaf node, 0 if it's not
+     */
+    [[nodiscard]] int isLeaf() const;
 };
 
 

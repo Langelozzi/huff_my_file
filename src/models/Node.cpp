@@ -11,7 +11,7 @@ Node::Node(char newData, int newPriority) {
     this->right = nullptr;
 }
 
-char Node::getData() {
+char Node::getData() const {
     return this->data;
 }
 
@@ -19,7 +19,7 @@ void Node::setData(char newData) {
     this->data = newData;
 }
 
-int Node::getPriority() {
+int Node::getPriority() const {
     return this->priority;
 }
 
@@ -43,6 +43,6 @@ void Node::setRight(Node *newRight) {
     Node::right = newRight;
 }
 
-int Node::isLeaf() {
+int Node::isLeaf() const {
     return !(this->getLeft()) && !(this->getRight());
 }

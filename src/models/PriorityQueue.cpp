@@ -19,7 +19,7 @@ int PriorityQueue::getSize() const {
     return this->queue.size();
 }
 
-const std::vector<Node *> &PriorityQueue::getQueue() const {
+std::vector<Node *> PriorityQueue::getQueue() const {
     return queue;
 }
 
@@ -45,6 +45,17 @@ void PriorityQueue::insert(char data, int priority) {
     this->insert(newNode);
 }
 
+Node* PriorityQueue::dequeue() {
+    if (this->getSize() == 0) {
+        return nullptr;
+    }
+
+    Node* frontNode = this->queue.at(0);
+    this->queue.erase(this->queue.begin());
+
+    return frontNode;
+}
+
 void PriorityQueue::print() const {
     if (this->getSize() == 0) {
         std::cout << "[]" << std::endl;
@@ -55,16 +66,5 @@ void PriorityQueue::print() const {
         std::cout << ", " << this->getQueue().at(i)->getData();
     }
     std::cout << "]" << std::endl;
-}
-
-Node* PriorityQueue::dequeue() {
-    if (this->getSize() == 0) {
-        return nullptr;
-    }
-
-    Node* frontNode = this->queue.at(0);
-    this->queue.erase(this->queue.begin());
-
-    return frontNode;
 }
 
