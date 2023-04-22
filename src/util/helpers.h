@@ -35,4 +35,6 @@ int binaryToInteger(std::vector<int>* binaryNum);
  */
 std::vector<int>* integerToBinary(unsigned char intNum);
 
+int countDigits(int num);
+
 #endif //HUFF_MY_FILE_HELPERS_H

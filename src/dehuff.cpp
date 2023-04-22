@@ -23,14 +23,25 @@ int main(int argc, char** argv) {
 
     FILE *file = getFile(filename);
 
-    char buffer;
-    long long charCount;
-    long numUniqueChar;
+    int buffer;
 
+    // get the total number of characters in the file
+    std::string charCountString;
     buffer = fgetc(file);
-    charCount = atoll(&buffer);
+    while (buffer != '|') {
+        charCountString.append((char *) &buffer);
+        buffer = fgetc(file);
+    }
+    long long charCount = strtoll((char *) &charCountString, nullptr, 10);
+
+    // get the number of unique characters in the file
+    auto *numUniqueCharString = new std::string();
     buffer = fgetc(file);
-    numUniqueChar = atoll(&buffer);
+    while (buffer != '|') {
+        numUniqueCharString->append((char *) &buffer);
+        buffer = fgetc(file);
+    }
+    long numUniqueChar = strtol((char *) numUniqueCharString, nullptr, 10);
 
     std::cout << charCount << " " << numUniqueChar << std::endl;
 

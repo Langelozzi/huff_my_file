@@ -12,28 +12,43 @@
 std::unordered_map<char, std::vector<int> *> *restoreCodewords(FILE *file, long numUniqueChars) {
     auto codes = new std::unordered_map<char, std::vector<int> *>();
 
-    char buffer;
+    int buffer;
     // the number of unique characters is how many code mappings there will be
     for (int count = 0; count < numUniqueChars; count++) {
         // when compressing, the metadata for each codeword is as follows:
         // |character|number of bits in codeword|codeword in decimal|
         char character;
-        int numBits;
-        int codewordDecimal;
 
         // read those 3 pieces of data from the file
+        // get character
         character = fgetc(file);
+
+        // get the number of bits
+        std::string numBitsString;
         buffer = fgetc(file);
-        numBits = atoi(&buffer);
+        while (buffer != '|') {
+            numBitsString.append((char *) &buffer);
+            buffer = fgetc(file);
+        }
+        long numBits = strtol((char *) &numBitsString, nullptr, 10);
+
+        // get the codeword as a decimal number
+        std::string codewordString;
         buffer = fgetc(file);
-        codewordDecimal = atoi(&buffer);
+        while (buffer != '|') {
+            codewordString.append((char *) &buffer);
+            buffer = fgetc(file);
+        }
+        long codewordDecimal = strtol((char *) &codewordString, nullptr, 10);
 
         // convert the codeword back to binary
         std::vector<int> *binaryCodeword = integerToBinary(codewordDecimal);
-        if (binaryCodeword->size() != numBits) {
-            // some error checking to make sure the codeword is as long as it should be
-            std::cout << "Decompression failed: could not restore codewords from metadata.";
-            return nullptr;
+        // if the codeword is not the right length then pad from with 0's
+        while (binaryCodeword->size() != numBits) {
+            binaryCodeword->insert(binaryCodeword->begin(), 0);
+//            // some error checking to make sure the codeword is as long as it should be
+//            std::cout << "Decompression failed: could not restore codewords from metadata.";
+//            return nullptr;
         }
 
         // add the character and codeword into the map
@@ -109,7 +124,7 @@ std::ofstream createDecompressedFile(const char *zipFileName) {
 };
 
 void decompress(FILE *originalFile, std::ofstream &outputFile, Node *huffmanTreeHead) {
-    char buffer;
+    int buffer;
     buffer = fgetc(originalFile);
 
     Node *treePtr = huffmanTreeHead;

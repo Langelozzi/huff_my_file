@@ -95,7 +95,7 @@ void writeCodewords(std::ofstream& compressedFile, std::unordered_map<char, std:
         unsigned long codewordLength = iterator.second->size();
         int codewordAsInt = binaryToInteger(iterator.second);
 
-        compressedFile << character << codewordLength << codewordAsInt;
+        compressedFile << character << codewordLength << "|" << codewordAsInt << "|";
     }
 };
 
@@ -105,7 +105,7 @@ void writeMetadata(
         unsigned long numUniqueChars,
         std::unordered_map<char, std::vector<int>*>* codewordMapping
 ) {
-    compressedFile << charCount << numUniqueChars;
+    compressedFile << charCount << "|" << numUniqueChars << "|";
     writeCodewords(compressedFile, codewordMapping);
 };
 

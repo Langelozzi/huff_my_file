@@ -4,6 +4,7 @@
 
 #include "helpers.h"
 #include <iostream>
+#include <cmath>
 
 
 FILE* getFile(const char *fileName) {
@@ -62,4 +63,9 @@ std::vector<int>* integerToBinary(unsigned char intNum) {
 
     std::reverse(binaryNum->begin(), binaryNum->end());
     return binaryNum;
+};
+
+int countDigits(int num) {
+    // example: num = 1234, it is between 1000 and 10000, so 3 < log10(1234) < 4, but when turned int, will be 3 + 1 = 4
+    return int(log10(num) + 1);
 };
