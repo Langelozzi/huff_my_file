@@ -14,4 +14,18 @@
  */
 void printCodeWords(std::unordered_map<char, std::vector<int>*>* codewords);
 
+/**
+ * Convert a binary number represented as a vector of 0's and 1's into its integer representation.
+ * @param binaryNum the vector representing the binary number
+ * @return the converted integer representation
+ */
+int binaryToInteger(std::vector<int>* binaryNum);
+
+/**
+ * Convert an integer into a vector of 0's and 1's representing the integer's binary representation.
+ * @param intNum the integer to convert
+ * @return the vector representation of the binary number
+ */
+std::vector<int>* integerToBinary(int intNum);
+
 #endif //HUFF_MY_FILE_HELPERS_H

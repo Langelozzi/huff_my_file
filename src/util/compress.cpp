@@ -3,6 +3,7 @@
 //
 
 #include "compress.h"
+#include "helpers.h"
 
 FILE* getFile(const char *fileName) {
     FILE* file = fopen(fileName, "r");
@@ -29,6 +30,19 @@ std::unordered_map<char, int> getCharFrequency(FILE* file) {
     }
 
     return freqMap;
+};
+
+unsigned long long getCharCount(FILE* file) {
+    long count = 0;
+    char buffer;
+
+    buffer = fgetc(file);
+    while (buffer != EOF) {
+        count++;
+        buffer = fgetc(file);
+    }
+
+    return count;
 };
 
 Node* buildHuffmanTree(PriorityQueue* queue) {
@@ -74,3 +88,33 @@ std::unordered_map<char, std::vector<int>*>* getHuffmanCodes(Node *huffmanTreeRo
 
     return codes;
 }
+
+std::ofstream createCompressedFile(const char* originalFileName) {
+    std::string newFileName = originalFileName;
+    newFileName.replace(newFileName.find(".txt"), sizeof(".txt") - 1, "-compressed.txt");
+
+    std::ofstream newFile(newFileName);
+
+    return newFile;
+};
+
+// the format being written is |character|length of codeword|codeword as integer|
+void writeCodewords(std::ofstream& compressedFile, std::unordered_map<char, std::vector<int>*>* codewordMapping) {
+    for (auto& iterator : *codewordMapping) {
+        char character = iterator.first;
+        unsigned long codewordLength = iterator.second->size();
+        int codewordAsInt = binaryToInteger(iterator.second);
+
+        compressedFile << character << codewordLength << codewordAsInt;
+    }
+};
+
+void writeMetadata(
+        std::ofstream& compressedFile,
+        unsigned long long charCount,
+        unsigned long numUniqueChars,
+        std::unordered_map<char, std::vector<int>*>* codewordMapping
+) {
+    compressedFile << charCount << numUniqueChars;
+    writeCodewords(compressedFile, codewordMapping);
+};

@@ -19,3 +19,19 @@ void printCodeWords(std::unordered_map<char, std::vector<int>*>* codewords) {
         std::advance(iterator, 1);
     }
 }
+
+int binaryToInteger(std::vector<int>* binaryNum) {
+    int result = 0;
+    int currentMultiplier = 1;
+
+    // rbegin() = reverse begin (i.e. the last index) and rend() is first index
+    for (auto iterator = binaryNum->rbegin(); iterator != binaryNum->rend(); iterator++) {
+        int bit = *iterator;
+        if (bit == 1) {
+            result += currentMultiplier;
+        }
+        currentMultiplier *= 2;
+    }
+
+    return result;
+};

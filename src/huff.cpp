@@ -23,8 +23,18 @@ int main(int argc, char** argv) {
 
     Node *huffmanTree = buildHuffmanTree(pq);
     std::unordered_map<char, std::vector<int>*>* codewords = getHuffmanCodes(huffmanTree);
-
     printCodeWords(codewords);
 
+    std::ofstream compressedFile = createCompressedFile(filename);
+
+    // rewind will set the file pointer back to the beginning of the file
+    rewind(file);
+    unsigned long long charCount = getCharCount(file);
+    unsigned long numUniqueChars = frequencyMap.size();
+
+    writeMetadata(compressedFile, charCount, numUniqueChars, codewords);
+
+    compressedFile.close();
+    fclose(file);
     return 0;
 }
