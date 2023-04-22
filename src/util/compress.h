@@ -62,4 +62,10 @@ void writeMetadata(
         std::unordered_map<char, std::vector<int>*>* codewordMapping
 );
 
+void compress(
+        FILE* originalFile,
+        std::ofstream& outputFile,
+        std::unordered_map<char, std::vector<int>*>* codewordMapping
+);
+
 #endif //COMPRESS_H

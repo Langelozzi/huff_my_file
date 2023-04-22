@@ -6,9 +6,14 @@
 #define HUFF_MY_FILE_DECOMPRESS_H
 
 #include <cstdio>
+#include "../models/Node.h"
 
 std::unordered_map<char, std::vector<int>*>* restoreCodewords(FILE* file, long numUniqueChars);
 
-int decompress(FILE* file);
+Node* restoreHuffmanTree(std::unordered_map<char, std::vector<int>*>* codewords);
+
+std::ofstream createDecompressedFile(const char* zipFileName);
+
+void decompress(FILE* originalFile, std::ofstream& outputFile, Node* huffmanTreeHead);
 
 #endif //HUFF_MY_FILE_DECOMPRESS_H

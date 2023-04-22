@@ -4,6 +4,7 @@
 
 
 #include <iostream>
+#include <fstream>
 #include "util/helpers.h"
 #include "util/decompress.h"
 
@@ -22,7 +23,30 @@ int main(int argc, char** argv) {
 
     FILE *file = getFile(filename);
 
-    decompress(file);
+    char buffer;
+    long long charCount;
+    long numUniqueChar;
+
+    buffer = fgetc(file);
+    charCount = atoll(&buffer);
+    buffer = fgetc(file);
+    numUniqueChar = atoll(&buffer);
+
+    std::cout << charCount << " " << numUniqueChar << std::endl;
+
+    auto codewords = restoreCodewords(file, numUniqueChar);
+    if (codewords == nullptr) {
+        return 0;
+    }
+    printCodeWords(codewords);
+
+    Node* huffmanTree = restoreHuffmanTree(codewords);
+
+    auto decompressedFile = createDecompressedFile(filename);
+
+    // when executing this function, the file cursor is at the end of the metadata and the start of the actual text
+    // content
+    decompress(file, decompressedFile, huffmanTree);
 
     return 0;
 }

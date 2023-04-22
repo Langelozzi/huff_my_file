@@ -34,6 +34,9 @@ int main(int argc, char** argv) {
 
     writeMetadata(compressedFile, charCount, numUniqueChars, codewords);
 
+    rewind(file);
+    compress(file, compressedFile, codewords);
+
     compressedFile.close();
     fclose(file);
     return 0;

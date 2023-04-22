@@ -81,9 +81,9 @@ std::unordered_map<char, std::vector<int>*>* getHuffmanCodes(Node *huffmanTreeRo
 
 std::ofstream createCompressedFile(const char* originalFileName) {
     std::string newFileName = originalFileName;
-    newFileName.replace(newFileName.find(".txt"), sizeof(".txt") - 1, "-compressed.txt");
+    newFileName.replace(newFileName.find(".txt"), sizeof(".txt") - 1, "-compressed.zip");
 
-    std::ofstream newFile(newFileName);
+    std::ofstream newFile(newFileName, std::ios::binary);
 
     return newFile;
 };
@@ -107,4 +107,56 @@ void writeMetadata(
 ) {
     compressedFile << charCount << numUniqueChars;
     writeCodewords(compressedFile, codewordMapping);
+};
+
+void compress(
+        FILE* originalFile, std::ofstream& outputFile, std::unordered_map<char, std::vector<int>*>* codewordMapping
+) {
+    unsigned char currentByte = 0; // start at 0000 0000
+    int currentByteCount = 0;
+
+    char currentChar;
+    currentChar = fgetc(originalFile);
+    while (currentChar != EOF) {
+        auto code = (*codewordMapping)[currentChar];
+
+        auto iterator = code->begin();
+        while (iterator != code->end()) {
+            int bit = *iterator;
+            // if current byte is not yet "full"
+            if (currentByteCount < 7) {
+                if (bit == 1) {
+                    // add 1 to current byte (0000 0001)
+                    currentByte++;
+                    // shift the 1 over a spot (0000 0010)
+                    currentByte <<= 1;
+                    currentByteCount++;
+                } else if (bit == 0) {
+                    // don't add 1 but shift the 0 over a spot
+                    currentByte <<= 1;
+                    currentByteCount++;
+                }
+                iterator++;
+            }
+            // once there are 7 bits filled
+            else if (currentByteCount == 7) {
+                if (bit == 1) {
+                    // add the final bit to the current byte
+                    currentByte++;
+                }
+                // reset byte count
+                currentByteCount = 0;
+                // write the byte to the new file
+                outputFile.write((char *) &currentByte, sizeof(currentByte));
+                // reset the byte back to 0000 0000
+                currentByte = 0;
+            }
+        }
+        currentChar = fgetc(originalFile);
+    }
+    // shift 0's onto the end of the last byte then write it
+    for (int i = 0; i < 7 - currentByteCount; i++) {
+        currentByte <<= 1;
+    }
+    outputFile.write((char *) &currentByte, sizeof(currentByte));
 };

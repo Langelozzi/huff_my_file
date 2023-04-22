@@ -33,6 +33,6 @@ int binaryToInteger(std::vector<int>* binaryNum);
  * @param intNum the integer to convert
  * @return the vector representation of the binary number
  */
-std::vector<int>* integerToBinary(int intNum);
+std::vector<int>* integerToBinary(unsigned char intNum);
 
 #endif //HUFF_MY_FILE_HELPERS_H

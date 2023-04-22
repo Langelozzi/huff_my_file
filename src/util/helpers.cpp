@@ -47,7 +47,7 @@ int binaryToInteger(std::vector<int>* binaryNum) {
     return result;
 };
 
-std::vector<int>* integerToBinary(int intNum) {
+std::vector<int>* integerToBinary(unsigned char intNum) {
     auto binaryNum = new std::vector<int>;
 
     if (intNum == 0) {
