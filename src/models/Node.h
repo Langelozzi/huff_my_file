@@ -18,6 +18,11 @@ private:
 
 public:
     /**
+     * Instantiate a Node without a priority or left or right.
+     */
+    explicit Node(char newData);
+
+    /**
      * Instantiate a new Node with data and a priority.
      * @param newData the data to store in the Node
      * @param newPriority the priority of the Node in a PriorityQueue

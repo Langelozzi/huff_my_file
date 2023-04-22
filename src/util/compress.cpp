@@ -5,16 +5,6 @@
 #include "compress.h"
 #include "helpers.h"
 
-FILE* getFile(const char *fileName) {
-    FILE* file = fopen(fileName, "r");
-    if (file == nullptr) {
-        std::cout << "File failed to open" << std::endl;
-        exit(1);
-    }
-
-    return file;
-};
-
 std::unordered_map<char, int> getCharFrequency(FILE* file) {
     std::unordered_map<char, int> freqMap;
 
@@ -51,7 +41,7 @@ Node* buildHuffmanTree(PriorityQueue* queue) {
     while (queue->getSize() != 1) {
         left = queue->dequeue();
         right = queue->dequeue();
-        root = new Node('$', left->getPriority() + right->getPriority());
+        root = new Node('\0', left->getPriority() + right->getPriority());
 
         root->setLeft(left);
         root->setRight(right);

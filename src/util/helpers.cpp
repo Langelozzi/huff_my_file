@@ -5,6 +5,17 @@
 #include "helpers.h"
 #include <iostream>
 
+
+FILE* getFile(const char *fileName) {
+    FILE* file = fopen(fileName, "r");
+    if (file == nullptr) {
+        std::cout << "File failed to open" << std::endl;
+        exit(1);
+    }
+
+    return file;
+};
+
 void printCodeWords(std::unordered_map<char, std::vector<int>*>* codewords) {
     std::cout << "Huffman Codeword:" << std::endl;
 
@@ -34,4 +45,21 @@ int binaryToInteger(std::vector<int>* binaryNum) {
     }
 
     return result;
+};
+
+std::vector<int>* integerToBinary(int intNum) {
+    auto binaryNum = new std::vector<int>;
+
+    if (intNum == 0) {
+        binaryNum->push_back(0);
+        return binaryNum;
+    }
+
+    while (intNum > 0) {
+        binaryNum->push_back(intNum % 2);
+        intNum /= 2;
+    }
+
+    std::reverse(binaryNum->begin(), binaryNum->end());
+    return binaryNum;
 };

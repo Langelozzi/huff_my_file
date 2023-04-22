@@ -4,6 +4,13 @@
 
 #include "Node.h"
 
+Node::Node(char newData) {
+    this->data = newData;
+    this->priority = 0;
+    this->left = nullptr;
+    this->right = nullptr;
+}
+
 Node::Node(char newData, int newPriority) {
     this->data = newData;
     this->priority = newPriority;

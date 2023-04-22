@@ -13,13 +13,6 @@
 #include "../models/PriorityQueue.h"
 
 /**
- * Open and return a pointer to the file with the given fileName, if it exists.
- * @param fileName the name of the file to open
- * @return a pointer to the file
- */
-FILE* getFile(const char *fileName);
-
-/**
  * Read the file and construct a character frequency table using an unordered_map.
  * @param file the file to read
  * @return an unordered_map with the character frequency of the file
