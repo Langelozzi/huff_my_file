@@ -51,6 +51,7 @@ int main(int argc, char** argv) {
     }
     printCodeWords(codewords);
 
+    // NOTE: huffman tree is working properly
     Node* huffmanTree = restoreHuffmanTree(codewords);
 
     auto decompressedFile = createDecompressedFile(filename);
@@ -58,6 +59,7 @@ int main(int argc, char** argv) {
     // when executing this function, the file cursor is at the end of the metadata and the start of the actual text
     // content
     decompress(file, decompressedFile, huffmanTree);
+    // ^^ this is not working, or the compress() in huff.cpp
 
     return 0;
 }
