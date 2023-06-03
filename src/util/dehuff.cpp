@@ -2,11 +2,11 @@
 // Created by Lucas Angelozzi on 2023-04-21.
 //
 
-
 #include <iostream>
 #include <fstream>
-#include "util/helpers.h"
-#include "util/decompress.h"
+#include "helpers.h"
+#include "decompress.h"
+#include "dehuff.h"
 
 /**
  * Compress a text file to a new file using huffman encoding algorithm.
@@ -14,13 +14,7 @@
  * @param argv argument vector: the string (char*) arguments provided
  * @return exit status 0
  */
-int main(int argc, char** argv) {
-    if (argc == 1) {
-        std::cout << "Please provide a zipped filename when using this command. e.g. dehuff file.zip" << std::endl;
-        exit(1);
-    }
-    char* filename = argv[1];
-
+int dehuff(char* filename) {
     FILE *file = getFile(filename);
 
     int buffer;
@@ -43,7 +37,7 @@ int main(int argc, char** argv) {
     }
     long numUniqueChar = strtol((char *) numUniqueCharString, nullptr, 10);
 
-    std::cout << charCount << " " << numUniqueChar << std::endl;
+    std::cout << "Character count " << charCount << "\n" << "Unique character count " << numUniqueChar << std::endl;
 
     auto codewords = restoreCodewords(file, numUniqueChar);
     if (codewords == nullptr) {
@@ -58,8 +52,13 @@ int main(int argc, char** argv) {
 
     // when executing this function, the file cursor is at the end of the metadata and the start of the actual text
     // content
-    decompress(file, decompressedFile, huffmanTree);
-    // ^^ this is not working, or the compress() in huff.cpp
+    long long numDecompressedCharacters = decompress(file, decompressedFile, huffmanTree);
+    // ^^ this is not working
+
+    if (numDecompressedCharacters != charCount) {
+        std::cerr << "Error: number of decompressed characters does not match the number of characters in the file" <<
+        std::endl;
+    }
 
     return 0;
 }

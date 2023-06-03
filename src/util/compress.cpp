@@ -81,21 +81,21 @@ std::unordered_map<char, std::vector<int>*>* getHuffmanCodes(Node *huffmanTreeRo
 
 std::ofstream createCompressedFile(const char* originalFileName) {
     std::string newFileName = originalFileName;
-    newFileName.replace(newFileName.find(".txt"), sizeof(".txt") - 1, "-compressed.zip");
+    newFileName.replace(newFileName.find(".txt"), sizeof(".txt") - 1, "-compressed.txt");
 
     std::ofstream newFile(newFileName, std::ios::binary);
 
     return newFile;
 };
 
-// the format being written is |character|length of codeword|codeword as integer|
+// the format being written is character|length of codeword|codeword as integer|
 void writeCodewords(std::ofstream& compressedFile, std::unordered_map<char, std::vector<int>*>* codewordMapping) {
     for (auto& iterator : *codewordMapping) {
         char character = iterator.first;
         unsigned long codewordLength = iterator.second->size();
         int codewordAsInt = binaryToInteger(iterator.second);
 
-        compressedFile << character << codewordLength << "|" << codewordAsInt << "|";
+        compressedFile << character << "|" << codewordLength << "|" << codewordAsInt << "|";
     }
 };
 
@@ -150,6 +150,8 @@ void compress(
                 outputFile.write((char *) &currentByte, sizeof(currentByte));
                 // reset the byte back to 0000 0000
                 currentByte = 0;
+
+                iterator++;
             }
         }
         currentChar = fgetc(originalFile);

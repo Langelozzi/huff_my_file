@@ -14,6 +14,6 @@ Node* restoreHuffmanTree(std::unordered_map<char, std::vector<int>*>* codewords)
 
 std::ofstream createDecompressedFile(const char* zipFileName);
 
-void decompress(FILE* originalFile, std::ofstream& outputFile, Node* huffmanTreeHead);
+long long decompress(FILE* originalFile, std::ofstream& outputFile, Node* huffmanTreeHead);
 
 #endif //HUFF_MY_FILE_DECOMPRESS_H

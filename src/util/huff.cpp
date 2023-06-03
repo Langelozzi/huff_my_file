@@ -1,7 +1,7 @@
-#include <iostream>
-#include "models/PriorityQueue.h"
-#include "util/compress.h"
-#include "util/helpers.h"
+#include "../models/PriorityQueue.h"
+#include "compress.h"
+#include "helpers.h"
+#include "huff.h"
 
 /**
  * Compress a text file to a new file using huffman encoding algorithm.
@@ -9,13 +9,7 @@
  * @param argv argument vector: the string (char*) arguments provided
  * @return exit status 0
  */
-int main(int argc, char** argv) {
-    if (argc == 1) {
-        std::cout << "Please provide a filename when using this command. e.g. huff file.txt" << std::endl;
-        exit(1);
-    }
-    char* filename = argv[1];
-
+int huff(char* filename) {
     FILE *file = getFile(filename);
     auto frequencyMap = getCharFrequency(file);
 
