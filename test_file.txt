@@ -1,1 +1,44 @@
-Hello world
+#include <iostream>
+#include <unistd.h>
+#include "util/huff.h"
+#include "util/dehuff.h"
+
+int main(int argc, char** argv) {
+    int opt;
+    std::string input;
+    bool isDehuff = false;
+
+    // Retrieve the (non-option) argument:
+    if ( (argc <= 1) || (argv[argc-1] == nullptr) || (argv[argc-1][0] == '-') ) {  // there is NO input...
+        std::cerr << "No argument provided!" << std::endl;
+        return 1;
+    }
+    else {  // there is an input file provided
+        input = argv[argc-1];
+    }
+
+    // Shut GetOpt error messages down (return '?'):
+    opterr = 0;
+
+    // Retrieve the options:
+    while ( (opt = getopt(argc, argv, "d")) != -1 ) {  // for each option...
+        switch ( opt ) {
+            case 'd': // option -d to dehuff (takes no argument)
+                isDehuff = true;
+                break;
+            case '?':  // unknown option...
+                std::cerr << "Unknown option: '" << char(optopt) << "'!" << std::endl;
+                break;
+            default:
+                std::cout << "huff" << std::endl;
+        }
+    }
+
+    if (isDehuff) {
+        dehuff((char *) input.c_str());
+    } else {
+        huff((char *) input.c_str());
+    }
+
+    return 0;
+}

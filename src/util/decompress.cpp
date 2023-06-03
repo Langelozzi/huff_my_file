@@ -115,8 +115,8 @@ Node *restoreHuffmanTree(std::unordered_map<char, std::vector<int> *> *codewords
 std::ofstream createDecompressedFile(const char *zipFileName) {
     std::string newFileName = zipFileName;
     newFileName.replace(
-            newFileName.find("-compressed.txt"),
-            sizeof("-compressed.txt") - 1,
+            newFileName.find("-compressed.zip"),
+            sizeof("-compressed.zip") - 1,
             "-decompressed.txt"
     );
 
@@ -125,17 +125,23 @@ std::ofstream createDecompressedFile(const char *zipFileName) {
     return newFile;
 };
 
-long long decompress(FILE *originalFile, std::ofstream &outputFile, Node *huffmanTreeHead) {
+void decompress(FILE *originalFile, std::ofstream &outputFile, Node *huffmanTreeHead, long long charCount) {
     long long decodedCharacterCount = 0;
 
     int buffer;
+    // get the first byte of the compressed file data
     buffer = fgetc(originalFile);
 
     Node *treePtr = huffmanTreeHead;
 
-    while (buffer != EOF) {
+    while (buffer != EOF && decodedCharacterCount < charCount) {
         // convert the character in buffer (i.e. the compressed byte) back into binary
         std::vector<int> *byte = integerToBinary(buffer);
+
+        // pad the front of the vector with 0's if it is not 8 bits long
+        while (byte->size() != 8) {
+            byte->insert(byte->begin(), 0);
+        }
 
         // iterate through the bits, traversing the huffman tree as we go
         // if the node is a leaf node then we have successfully decoded a character and can write it to the file,
@@ -160,6 +166,4 @@ long long decompress(FILE *originalFile, std::ofstream &outputFile, Node *huffma
 
         buffer = fgetc(originalFile);
     }
-
-    return decodedCharacterCount;
 };

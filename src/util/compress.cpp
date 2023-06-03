@@ -81,7 +81,7 @@ std::unordered_map<char, std::vector<int>*>* getHuffmanCodes(Node *huffmanTreeRo
 
 std::ofstream createCompressedFile(const char* originalFileName) {
     std::string newFileName = originalFileName;
-    newFileName.replace(newFileName.find(".txt"), sizeof(".txt") - 1, "-compressed.txt");
+    newFileName.replace(newFileName.find(".txt"), sizeof(".txt") - 1, "-compressed.zip");
 
     std::ofstream newFile(newFileName, std::ios::binary);
 

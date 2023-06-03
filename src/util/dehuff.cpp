@@ -52,13 +52,8 @@ int dehuff(char* filename) {
 
     // when executing this function, the file cursor is at the end of the metadata and the start of the actual text
     // content
-    long long numDecompressedCharacters = decompress(file, decompressedFile, huffmanTree);
+    decompress(file, decompressedFile, huffmanTree, charCount);
     // ^^ this is not working
-
-    if (numDecompressedCharacters != charCount) {
-        std::cerr << "Error: number of decompressed characters does not match the number of characters in the file" <<
-        std::endl;
-    }
 
     return 0;
 }
